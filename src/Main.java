@@ -14,10 +14,14 @@ public class Main {
         // System.out.println(encrypt);
 
 
-        Encryptor encryptor = new Encryptor(3, 2, 2);
+        Encryptor encryptor = new Encryptor(7, 3, 21);
 
-        System.out.println(encryptor.superEncryptMessage("aPPLEZ are reALLY yumm!"));
-//        System.out.println(encryptor.superDecryptMessage("bQF s fQMabfsBMZzn!AAM vnAAA"));
+        System.out.println("Original");
+        System.out.println("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        System.out.println("Encypted by 11");
+        System.out.println(encryptor.superEncryptMessage("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        System.out.println("Decrypted");
+        System.out.println(encryptor.superDecryptMessage("VYbehknWZcfiloXadgjmpqtAAAAAruAAAAAsAAAAAA"));
     }
 }
 

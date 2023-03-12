@@ -195,20 +195,86 @@ public class Encryptor {
         System.out.println(message);
 
         String finalMessage = "";
-        double numOfBlocks =(double) message.length()/(double)(numRows*numCols);
-        if (numOfBlocks%1!=0){
+        double numOfBlocks = (double) message.length()/(double)(numRows*numCols);
+        if (numOfBlocks%1 != 0){
             numOfBlocks++;
         }
         int num = (int)numOfBlocks;
         int count =0;
-        for (int i = 0; i<num-1; i++){
+        for (int i = 0; i < num-1; i++){
             fillBlock(message.substring((count*numRows*numCols), ((count+1)*numRows*numCols)));
-            finalMessage+=encryptBlock();
+            finalMessage += encryptBlock();
             count++;
         }
         fillBlock(message.substring(count*numRows*numCols));
-        finalMessage+=encryptBlock();
+        finalMessage += encryptBlock();
 
         return finalMessage;
+    }
+
+    public String superDecryptMessage(String encryptedMessage) {
+        String finalString = "";
+        double numOfBlocks = (double)encryptedMessage.length()/(double)(numRows*numCols);
+        if (numOfBlocks%1 != 0){
+            numOfBlocks++;
+        }
+        int num = (int)numOfBlocks;
+        int count = 0;
+        for (int i = 0; i < num-1; i++) {
+            fillBlock2(encryptedMessage.substring((count*numRows*numCols), ((count+1)*numRows*numCols)));
+
+            for (int j = 0; j < letterBlock.length; j++) {
+                for (int x = 0; x < letterBlock[0].length; x++) {
+                    finalString += letterBlock[j][x];
+                }
+            }
+            count++;
+        }
+
+        fillBlock2(encryptedMessage.substring(count*numRows*numCols));
+        for (int j = 0; j < letterBlock.length; j++) {
+            for (int x = 0; x < letterBlock[0].length; x++) {
+                finalString += letterBlock[j][x];
+            }
+        }
+
+        String letter = finalString.substring(finalString.length() - 1);
+
+        while (letter.equals("A")) {
+            finalString= finalString.substring(0, finalString.length()-1);
+
+            letter = finalString.substring(finalString.length() - 1);
+        }
+
+        String message = "";
+
+        for (int j = 0; j < finalString.length(); j++) {
+            int index = ABC.indexOf(finalString.substring(j , j + 1));
+            int offsetIndex = index - offset;
+
+            if (index == -1) { //if there are spaces in "message" then it would be found in ABC
+                message += finalString.substring(j, j+1);
+            } else if (index - offset < 0){
+                int tempInd = index;
+                int index2 = ABC.length() - 1;
+                String add = "";
+                for (int x = 0; x < offset; x++) {
+                    if (tempInd != 0) {
+                        add = ABC.substring(tempInd, tempInd + 1);
+                        tempInd--;
+                    } else {
+                        add = ABC.substring(index2, index2 + 1);
+                        index2--;
+                    }
+                }
+                message += add;
+            } else {
+                message += ABC.substring(offsetIndex, offsetIndex + 1);
+            }
+        }
+
+        finalString = message;
+
+        return finalString;
     }
 }
